@@ -2,6 +2,8 @@
 
 Complete Laravel SDK for the MultiversX ecosystem with support for xExchange, Dynamic NFTs, and XOXNO.
 
+> ⚠️ **WARNING**: This SDK is currently in early alpha stage and is not intended for production use. The API and features are subject to change without notice.
+
 ## Installation
 
 ```bash
