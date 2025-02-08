@@ -1,0 +1,53 @@
+{
+    "name": "kmcpg/sdklaramvx",
+    "description": "MultiversX SDK for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MultiversX\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "KMCPG",
+            "homepage": "https://kmcpg.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/support": "^8.0|^9.0|^10.0",
+        "paragonie/sodium_compat": "^1.20",
+        "simplito/elliptic-php": "^1.0",
+        "kornrunner/keccak": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "mockery/mockery": "^1.5",
+        "orchestra/testbench": "^6.0|^7.0|^8.0",
+        "phpstan/phpstan": "^1.10"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MultiversX\\Laravel\\Providers\\MultiversXServiceProvider"
+            ],
+            "aliases": {
+                "MultiversX": "MultiversX\\Laravel\\Facades\\MultiversX"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "analyse": "vendor/bin/phpstan analyse"
+    }
+}
