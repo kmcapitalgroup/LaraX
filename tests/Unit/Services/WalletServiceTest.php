@@ -13,6 +13,8 @@ class WalletServiceTest extends TestCase
     protected WalletService $walletService;
     protected $config;
     protected $mockMnemonic;
+    protected $testMnemonic;
+    protected $testAddress = 'erd1test';
 
     protected function setUp(): void
     {
@@ -28,10 +30,12 @@ class WalletServiceTest extends TestCase
             ]
         ];
 
+        $this->testMnemonic = 'test test test test test test test test test test test test test test test test test test test test test test test test';
+
         // Create WalletService instance with mocked methods
         $this->walletService = $this->getMockBuilder(WalletService::class)
             ->setConstructorArgs([$this->config])
-            ->onlyMethods(['get', 'post', 'request', 'getAddressFromMnemonic', 'validateMnemonic', 'generatePrivateKey'])
+            ->onlyMethods(['get', 'post', 'request', 'getAddressFromMnemonic', 'validateMnemonic'])
             ->getMock();
     }
 
@@ -39,8 +43,8 @@ class WalletServiceTest extends TestCase
     {
         // Mock data
         $expectedResponse = [
-            'mnemonic' => 'test mnemonic',
-            'address' => 'erd1test'
+            'mnemonic' => $this->testMnemonic,
+            'address' => $this->testAddress
         ];
 
         // Mock getAddressFromMnemonic method
@@ -57,33 +61,33 @@ class WalletServiceTest extends TestCase
         $this->assertArrayHasKey('mnemonic', $result);
         $this->assertArrayHasKey('address', $result);
         $this->assertEquals($expectedResponse['address'], $result['address']);
+        $this->assertEquals($expectedResponse['mnemonic'], $result['mnemonic']);
     }
 
     public function testImportFromMnemonic()
     {
         // Test data
-        $mnemonic = 'test mnemonic phrase';
         $expectedResponse = [
-            'mnemonic' => $mnemonic,
-            'address' => 'erd1test'
+            'mnemonic' => $this->testMnemonic,
+            'address' => $this->testAddress
         ];
 
         // Mock validateMnemonic method
         $this->walletService
             ->expects($this->once())
             ->method('validateMnemonic')
-            ->with($mnemonic)
+            ->with($this->testMnemonic)
             ->willReturn(true);
 
         // Mock getAddressFromMnemonic method
         $this->walletService
             ->expects($this->once())
             ->method('getAddressFromMnemonic')
-            ->with($mnemonic)
+            ->with($this->testMnemonic)
             ->willReturn($expectedResponse['address']);
 
         // Call the method
-        $result = $this->walletService->importFromMnemonic($mnemonic);
+        $result = $this->walletService->importFromMnemonic($this->testMnemonic);
 
         // Assert the result
         $this->assertEquals($expectedResponse, $result);
@@ -112,40 +116,32 @@ class WalletServiceTest extends TestCase
     public function testCreateKeystore()
     {
         // Test data
-        $mnemonic = 'test mnemonic phrase';
         $password = 'testPassword';
-        $expectedResponse = [
-            'keystore' => [
-                'version' => 4,
-                'id' => 'test-uuid',
-                'address' => 'erd1test'
-            ],
-            'address' => 'erd1test'
-        ];
 
         // Mock validateMnemonic method
         $this->walletService
             ->expects($this->once())
             ->method('validateMnemonic')
-            ->with($mnemonic)
+            ->with($this->testMnemonic)
             ->willReturn(true);
 
-        // Mock generatePrivateKey method
+        // Mock getAddressFromMnemonic method
         $this->walletService
             ->expects($this->once())
-            ->method('generatePrivateKey')
-            ->with($mnemonic)
-            ->willReturn('testPrivateKey');
+            ->method('getAddressFromMnemonic')
+            ->with($this->testMnemonic)
+            ->willReturn($this->testAddress);
 
         // Call the method
-        $result = $this->walletService->createKeystore($mnemonic, $password);
+        $result = $this->walletService->createKeystore($this->testMnemonic, $password);
 
         // Assert the result structure
         $this->assertArrayHasKey('keystore', $result);
         $this->assertArrayHasKey('address', $result);
+        $this->assertEquals($this->testAddress, $result['address']);
         $this->assertArrayHasKey('version', $result['keystore']);
         $this->assertArrayHasKey('id', $result['keystore']);
-        $this->assertArrayHasKey('address', $result['keystore']);
+        $this->assertArrayHasKey('crypto', $result['keystore']);
     }
 
     public function testCreateKeystoreWithInvalidMnemonic()

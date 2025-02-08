@@ -2,6 +2,16 @@
     "name": "kmcpg/sdklaramvx",
     "description": "MultiversX SDK for Laravel",
     "type": "library",
+    "version": "1.0.0",
+    "keywords": [
+        "multiversx",
+        "blockchain",
+        "laravel",
+        "sdk",
+        "wallet",
+        "crypto",
+        "kmcpg"
+    ],
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -49,5 +59,9 @@
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
         "analyse": "vendor/bin/phpstan analyse"
+    },
+    "support": {
+        "issues": "https://github.com/kmcpg/sdklaramvx/issues",
+        "source": "https://github.com/kmcpg/sdklaramvx"
     }
 }
