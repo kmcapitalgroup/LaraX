@@ -2,7 +2,7 @@
     "name": "kmcpg/sdklaramvx",
     "description": "MultiversX SDK for Laravel",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "multiversx",
         "blockchain",
